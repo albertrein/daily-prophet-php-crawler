@@ -1,0 +1,9 @@
+https://oglobo.globo.com/
+-
+[h1].teaser__title.headline__title
+[p].teaser__subtitle.headline__subtitle
+-
+[h2].teaser__title.big-teaser__title
+[p].teaser__subtitle.big-teaser__subtitle
+-
+[h3].teaser__title small-teaser__title.teaser__title

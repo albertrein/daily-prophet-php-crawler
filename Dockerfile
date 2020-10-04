@@ -1,6 +1,5 @@
 FROM php:7.3-apache
 RUN a2enmod rewrite
-RUN docker-php-ext-install mysqli
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -y git
