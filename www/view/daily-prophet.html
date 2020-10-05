@@ -27,7 +27,18 @@
         <h1>Daily <b style="color: #d3a825;">P</b>rophet</h1>
     </div>
     <div class="notice">
-        <!-- JS fecth aqui para buscar as noticias -->
+       
     </div>
+
+    <script lang="text/javascript">
+    
+
+        fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
+            document.querySelector('.notice').append(data);
+        })
+
+
+        
+    </script>
 </body>
 </html>
