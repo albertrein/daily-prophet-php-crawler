@@ -27,18 +27,13 @@
         <h1>Daily <b style="color: #d3a825;">P</b>rophet</h1>
     </div>
     <div class="notice">
-       
     </div>
 
     <script lang="text/javascript">
-    
-
         fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
-            document.querySelector('.notice').append(data);
-        })
-
-
-        
+            let elementConverted = new DOMParser().parseFromString(data, 'text/html');
+            document.querySelector('.notice').append(elementConverted.body);
+        })        
     </script>
 </body>
 </html>
