@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
     <title>Daily Prophet</title>
     <style>
     	body{background-color: #ebd4b9}
@@ -10,15 +12,15 @@
             font-family: 'mugglenews';
             src: URL('view/assets/mugglenews_by_nathanthenerd_d41qn8p.ttf') format('truetype');
         }
-        h1{
+        .head h1{
             font-family: mugglenews;
             font-size: 104px;
         }
-        .p{
+        /*.p{
             color:#d3a825;
         }
         .notice div {
-            display: table-cell;
+            padding: 10px 30px;
         }
         .notice h1{
             font-size: 20px;
@@ -31,20 +33,31 @@
         }
         .notice p{
             font-size: 10px;
-        }
+        }*/
     </style>
 </head>
 <body>
-    <div style="display: flex;">
+    <div class="head" style="display: flex;">
         <h1>Daily <b style="color: #d3a825;">P</b>rophet</h1>
     </div>
-    <div class="notice">
+    <div class="container">
+        <div class="row row-cols-3 align-items-start"></div>
+        <div class="d-flex justify-content-center">
+            <div id="loading" class="spinner-border" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+        </div>
     </div>
 
     <script lang="text/javascript">
         fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
-            let elementConverted = new DOMParser().parseFromString(data, 'text/html');
-            document.querySelector('.notice').append(elementConverted.body);
+            if(data){
+                let elementConverted = new DOMParser().parseFromString(data, 'text/html');
+                elementConverted.querySelectorAll('div').forEach((el) => {
+                    document.querySelector('.row').appendChild(el)
+                });
+                document.querySelector('#loading').style.display = "none";
+            }            
         })        
     </script>
 </body>
