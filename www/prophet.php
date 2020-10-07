@@ -7,14 +7,13 @@
     array_map("sitesIterate", $arrayOfSelectors);
 
     function sitesIterate($array){
-        //echo "Site:".$array[0]."<br>";
         $html = file_get_contents(str_replace("\n", '', $array[0]));
         $crawler = new Crawler($html);
 
         for($i = 1; $i < count($array); $i++){
             if(strlen($array[$i]) > 2){
                 if(substr($array[$i], 0, 1) == "h"){
-                    echo "<div>";
+                    echo "<div class='col py-3 px-lg-5'>";
                     $tagOfElement = substr($array[$i], 0, 2);
                     $elementSelector = substr($array[$i], 2);
                 }else{
@@ -30,7 +29,7 @@
                         echo "</div>";
                     }
                 }catch(Exception $e){
-                    die($e);
+                    die('null');
                 }
 
             }            
