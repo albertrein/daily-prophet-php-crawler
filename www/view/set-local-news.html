@@ -31,8 +31,9 @@
                cache: 'default'
             };
 
-            fetch("../setcookie-country.php?country="+valueSelected);
-            window.location.reload();
+            fetch("../setcookie-country.php?country="+valueSelected).then(() => {
+                window.location.reload();
+            });
         }
     </script>
 </body>
