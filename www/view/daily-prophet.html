@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <title>Daily Prophet</title>
+    <script>
+        fetch('./getcookie-country.php').then((resp) => resp.text()).then(function(data) {
+            if(data == ""){console.log('asdasd')}
+        });
+    </script>
     <style>
     	body{background-color: #ebd4b9}
         @font-face {
@@ -21,6 +28,32 @@
     </style>
 </head>
 <body>
+
+    <!-- Modal - Select Country -->
+    <div class="modal fade show" id="countryModal" tabindex="-1" aria-labelledby="countryModal" aria-modal="true" role="dialog" style="display: block;">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="countryModalLabel">Please, select a country.</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <select id="countrySelect" class="form-control form-control-lg">
+                    <option></option>
+                    <option value="brazil">Brazil</option>
+                    <option value="eua">EUA</option>
+                    <option value="uk">UK</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="setCountry()">Save</button>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <div class="head" style="text-align: center;">
         <img class="float-left" style="width: 100px;" src="view/assets/logo.png"/>
         <h1>Daily <b style="color: #d3a825;">P</b>rophet</h1>
@@ -34,16 +67,32 @@
         </div>
     </div>
 
+    <div id="opacityBackground" class="modal-backdrop fade show"></div>
     <script lang="text/javascript">
-        fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
-            if(data){
-                let elementConverted = new DOMParser().parseFromString(data, 'text/html');
-                elementConverted.querySelectorAll('div').forEach((el) => {
-                    document.querySelector('.row').appendChild(el)
+        function setCountry(){
+            let country = document.querySelector('#countrySelect').value;
+            if(country != ""){
+                document.querySelector("#countryModal").style.display = "none";
+                document.querySelector(".modal-backdrop.fade.show").remove();
+                console.log('seted:',country.value);
+                fetch("../setcookie-country.php?country="+country).then(() => {
+                    getNews();
                 });
-                document.querySelector('#loading').style.display = "none";
-            }            
-        })        
+            }
+            return 0;
+        }
+        
+        function getNews(){
+            fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
+                if(data){
+                    let elementConverted = new DOMParser().parseFromString(data, 'text/html');
+                    elementConverted.querySelectorAll('div').forEach((el) => {
+                        document.querySelector('.row').appendChild(el)
+                    });
+                    document.querySelector('#loading').style.display = "none";
+                }            
+            })
+        }
     </script>
 </body>
 </html>
