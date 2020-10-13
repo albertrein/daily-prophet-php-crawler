@@ -9,11 +9,11 @@
     function sitesIterate($array){
         $html = file_get_contents(str_replace("\n", '', $array[0]));
         $crawler = new Crawler($html);
-
+        $htmlElement = "";
         for($i = 1; $i < count($array); $i++){
-            if(strlen($array[$i]) > 2){
+            if(strlen($array[$i]) > 2){                
                 if(substr($array[$i], 0, 1) == "h"){
-                    echo "<div class='col py-3 px-lg-5'>";
+                    $htmlElement .= "<div class='col py-3 px-lg-5'>";
                     $tagOfElement = substr($array[$i], 0, 2);
                     $elementSelector = substr($array[$i], 2);
                 }else{
@@ -21,12 +21,14 @@
                     $elementSelector = substr($array[$i], 1);
                 }
                 try{
-                    $texto = $crawler->filter($elementSelector)->each(function (Crawler $node, $i) {
+                    $textDataFromPage = $crawler->filter($elementSelector)->each(function (Crawler $node, $i) {
                         return $node->text();
                     });
-                    echo "<".$tagOfElement.">".$texto[0]."</".$tagOfElement.">";
+                    if($textDataFromPage[0] == ""){$htmlElement = ""; continue;}
+                    $htmlElement .= "<".$tagOfElement.">".$textDataFromPage[0]."</".$tagOfElement.">";
                     if(strlen($array[$i + 1]) <= 2){
-                        echo "</div>";
+                        echo $htmlElement."</div>";
+                        $htmlElement = "";
                     }
                 }catch(Exception $e){
                     die('null');
