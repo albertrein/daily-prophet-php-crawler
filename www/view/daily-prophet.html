@@ -7,11 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
     <title>Daily Prophet</title>
-    <script>
-        fetch('./getcookie-country.php').then((resp) => resp.text()).then(function(data) {
-            if(data == ""){console.log('asdasd')}
-        });
-    </script>
+    
     <style>
     	body{background-color: #ebd4b9}
         @font-face {
@@ -30,7 +26,7 @@
 <body>
 
     <!-- Modal - Select Country -->
-    <div class="modal fade show" id="countryModal" tabindex="-1" aria-labelledby="countryModal" aria-modal="true" role="dialog" style="display: block;">
+    <div class="modal fade show" id="countryModal" tabindex="-1" aria-labelledby="countryModal" aria-modal="true" role="dialog" style="display: none;">
         <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -67,32 +63,8 @@
         </div>
     </div>
 
-    <div id="opacityBackground" class="modal-backdrop fade show"></div>
-    <script lang="text/javascript">
-        function setCountry(){
-            let country = document.querySelector('#countrySelect').value;
-            if(country != ""){
-                document.querySelector("#countryModal").style.display = "none";
-                document.querySelector(".modal-backdrop.fade.show").remove();
-                console.log('seted:',country.value);
-                fetch("../setcookie-country.php?country="+country).then(() => {
-                    getNews();
-                });
-            }
-            return 0;
-        }
-        
-        function getNews(){
-            fetch("./prophet.php").then((resp) => resp.text()).then(function(data) {
-                if(data){
-                    let elementConverted = new DOMParser().parseFromString(data, 'text/html');
-                    elementConverted.querySelectorAll('div').forEach((el) => {
-                        document.querySelector('.row').appendChild(el)
-                    });
-                    document.querySelector('#loading').style.display = "none";
-                }            
-            })
-        }
-    </script>
+    <div style="display: none;" id="opacityBackground" class="modal-backdrop fade show"></div>
+
+    <script src="view/js/country_view_manager.js"></script>
 </body>
 </html>
